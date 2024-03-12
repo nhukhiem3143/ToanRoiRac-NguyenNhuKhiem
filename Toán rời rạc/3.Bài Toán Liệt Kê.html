@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+</head>
+<body>
+    <h1>Bài Toán Liệt Kê</h1>
+    <h2>Tên bài toán: Liệt kê tất cả các cách chia 6 viên bi vào 3 hộp, mỗi hộp có thể chứa từ 0 đến 6 viên bi</h2>
+    <p>Phân tích bài toán: Bài toán yêu cầu liệt kê tất cả các cách chia 6 viên bi vào 3 hộp, mỗi hộp có thể chứa từ 0 đến 6 viên bi. Đây là một bài toán tổ hợp, nơi chúng ta cần tìm tất cả các cách phân phối viên bi vào các hộp.
+
+        Các bước giải quyết bài toán:
+        
+        1.Khởi tạo: Tạo một mảng chứa số lượng bi trong mỗi hộp. Ban đầu, mỗi hộp đều trống, nên mảng này sẽ chứa các số 0.
+        
+        2.Thử tất cả các cách chia bi: Sử dụng thuật toán quay lui (backtracking) để thử tất cả các cách chia bi vào các hộp. Đối với mỗi cách chia, kiểm tra xem tổng số bi trong tất cả các hộp có bằng 6 không.
+        
+        3.In ra kết quả: Khi tìm thấy một cách chia thỏa mãn điều kiện tức là tổng số bi trong tất cả các hộp bằng 6, in ra cách chia đó.</p>
+    <input type="submit" value="Xem Lời Giải" onclick="distributeBalls(0, 6)">
+    <div id="result"></div> <!-- Thêm phần tử để hiển thị kết quả -->
+   
+    <script>
+        // Khởi tạo mảng để lưu cách phân phối bóng
+        let distribution = [0, 0, 0];
+        // Khởi tạo biến để đếm số cách chia
+        let count = 0;
+
+        // Hàm liệt kê tất cả các cách phân phối bóng
+        function distributeBalls(index, remainingBalls) {
+            // Nếu đã xét đến hộp thứ ba
+            if (index === 3) {
+                // Nếu không còn bóng để phân phối
+                if (remainingBalls === 0) {
+                    // Tăng số cách chia lên 1
+                    count++;
+                    // Hiển thị một cách phân phối
+                    document.getElementById('result').innerHTML += "Cách chia thứ " + count + ": " + distribution.join(', ') + '<br>';
+                }
+                return;
+            }
+            // Xét tất cả các khả năng phân phối bóng cho hộp hiện tại
+            for (let i = 0; i <= Math.min(6, remainingBalls); i++) {
+                // Gán số bóng cho hộp hiện tại
+                distribution[index] = i;
+                // Gọi đệ quy để xét cho hộp tiếp theo
+                distributeBalls(index + 1, remainingBalls - i);
+            }
+        }
+    </script>
+</body>
+</html>

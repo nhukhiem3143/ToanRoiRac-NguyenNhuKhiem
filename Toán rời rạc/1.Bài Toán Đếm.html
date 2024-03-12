@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+</head>
+<body>
+    <!--hien thi web-->
+    <h1>Bài Toán Đếm</h1>
+    <h2>Tên bài toán: Đếm số tự nhiên có ít nhất một chữ số là 5 trong các số có 4 chữ số khác nhau</h2>
+    <p>Phân tích bài toán:Bài toán yêu cầu tìm số lượng các số tự nhiên 4 chữ số khác nhau mà có ít nhất một chữ số là 5.
+        Để giải quyết bài toán này, ta cần xem xét tất cả các số tự nhiên 4 chữ số từ 1023 đến 9876 (đây là khoảng số có 4 chữ số khác nhau nhỏ nhất và lớn nhất). Đối với mỗi số, ta kiểm tra xem nó có chứa chữ số 5 và tất cả các chữ số đều khác nhau không. Nếu đúng, ta tăng biến đếm lên 1.</p>
+    <input type="submit" value="Xem Lời Giải" onclick="xemloigiai()">
+    <div id="ketqua"></div> <!-- Thêm phần tử để hiển thị kết quả -->
+   
+    <!--xu ly thuat toan-->
+    <script>
+            function xemloigiai() {
+                // Khởi tạo biến đếm
+                let count = 0;
+                // Duyệt qua tất cả các số từ 1023 đến 9876
+                for (let i = 1023; i <= 9876; i++) {
+                    // Chuyển số thành chuỗi và tách chuỗi thành mảng các chữ số
+                    let digits = i.toString().split('');
+                    // Chuyển mảng thành Set để loại bỏ các chữ số trùng lặp
+                    let uniqueDigits = new Set(digits);
+                    // Kiểm tra xem số có chứa chữ số 5 và tất cả các chữ số đều khác nhau không
+                    // Nếu có, tăng biến đếm lên 1
+                    if (uniqueDigits.has('5') && uniqueDigits.size === 4) {
+                        count++;
+                    }
+                }
+                // Cập nhật phần tử HTML với ID 'ketqua' để hiển thị kết quả
+                document.getElementById('ketqua').innerHTML = "Số tự nhiên có ít nhất một chữ số là 5 trong các số có 4 chữ số khác nhau: " + count;
+            }
+    </script>
+</body>
+</html>

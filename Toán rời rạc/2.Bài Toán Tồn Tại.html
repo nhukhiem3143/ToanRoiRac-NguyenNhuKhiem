@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+<script>
+const n=19
+var x=[] 
+var m=[] 
+var stt
+function init(){
+  for(var i = 1; i<=n ; i++)
+  {
+  	m[i]=0 
+  	x[i]=0 
+  }
+  stt=0
+}
+function f(i){
+  for(var so = 1; so<=n; so++)
+  {
+  	if(m[so]==0){ 
+  	  x[i]=so    
+  	  m[so]=1    
+  	  if(check_ok(i)){
+  	    if(i==n)
+  	      show_kq()
+  	    else
+  	      f(i+1)
+  	  }
+  	  x[i]=0
+  	  m[so]=0
+    }
+  }
+}
+const v=[
+			[9,10,11],
+			[8,12,17,18],
+			[1,7,13,16,19],
+			[2,6,14,15],
+			[3,4,5],
+			[1,2,3],
+			[4,12,13,14],
+			[5,11,15,18,19],
+			[6,10,16,17],
+			[7,8,9],
+			[1,11,12],
+			[2,10,13,18],
+			[3,9,14,17,19],
+			[4,8,15,16],
+			[5,6,7],
+		]
+function check_ok(k){
+  for(var mang of v){
+	var sum=0, isFull=1
+	for(var i of mang){
+	  if(i<=k){
+	    sum += x[i]
+	    if(x[i]==0)isFull=0
+	  }else{
+	    isFull=0
+	  }
+	}
+	//console.log([k,mang,isFull,sum])
+	if(sum>38)return false
+	if(isFull){
+	  if(sum!=38)return false
+	}else
+	  if(sum>=38)return false
+  }
+  return true
+}
+
+function show_kq(){
+  var loigiai = 'Nghiệm thứ '+ ++stt+': '
+  for(var i=1;i<=n;i++)loigiai+=x[i]+', '
+  document.getElementById('ketqua').innerHTML+=loigiai+'<br>'
+  if(stt==7){
+    for(var i=1;i<=n;i++)document.getElementById('v'+i).innerHTML=x[i]
+  }
+}
+function giai(){	
+  init()
+  f(1) 
+}
+
+
+</script>
+<style>
+.cell{
+width:30px;
+height:20px;
+text-align:center;
+font-size:40px;
+}
+</style>
+</head>
+<body style="cursor: auto">
+	<h1>Bài Toán Tồn Tại</h1>
+	<h2>Tên bài toán: Xếp các số nguyên từ 1..19 vào các ô của lục giác thần bí sao cho tổng 6 hướng của lục giác đều bằng nhau. Đây chính là bài toán lục giác thần bí.</h2>
+<p>
+	Phân tích bài toán: Bài toán yêu cầu xếp các số nguyên từ 1 đến 19 vào các ô của một hình lục giác sao cho tổng các số trên mỗi hướng của lục giác đều bằng nhau. Đây là một bài toán tối ưu hóa tổ hợp, nơi chúng ta cần tìm một cách sắp xếp các số sao cho điều kiện đề bài được thỏa mãn.
+Các bước giải quyết bài toán:
+1.Khởi tạo: Tạo một mảng chứa các số từ 1 đến 19 và một mảng khác để lưu cách xếp số vào lục giác.
+
+2.Thử tất cả các cách xếp số: Sử dụng thuật toán quay lui (backtracking) để thử tất cả các cách xếp số vào lục giác. Đối với mỗi cách xếp, kiểm tra xem nó có thỏa mãn điều kiện đề bài không.
+
+3.Kiểm tra điều kiện: Đối với mỗi cách xếp, kiểm tra xem tổng các số trên mỗi hướng của lục giác có bằng nhau không.
+
+4.In ra kết quả: Khi tìm thấy một cách xếp thỏa mãn điều kiện, in ra cách xếp đó.
+</p>
+<button onclick="giai()">Tìm lời giải</button>
+<img src="luc-giac.jpg">
+
+<div class="cell ui-draggable ui-draggable-handle" id="v1" style="position: relative; left: 400px; top: -500px;">1</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v2" style="position: relative; left: 522px; top: -470px;">2</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v3" style="position: relative; left: 623px; top: -440px;">3</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v4" style="position: relative; left: 621px; top: -352px;">4</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v5" style="position: relative; left: 625px; top: -269px;">5</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v6" style="position: relative; left: 519px; top: -232px;">6</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v7" style="position: relative; left: 411px; top: -207px;">7</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v8" style="position: relative; left: 307px; top: -280px;">8</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v9" style="position: relative; left: 207px; top: -346px;">9</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v10" style="position: relative; left: 203px; top: -479px;">10</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v11" style="position: relative; left: 208px; top: -601px;">11</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v12" style="position: relative; left: 312px; top: -675px;">12</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v13" style="position: relative; left: 417px; top: -642px;">13</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v14" style="position: relative; left: 521px; top: -612px;">14</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v15" style="position: relative; left: 521px; top: -528px;">15</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v16" style="position: relative; left: 414px; top: -492px;">16</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v17" style="position: relative; left: 310px; top: -562px;">17</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v18" style="position: relative; left: 312px; top: -687px;">18</div>
+<div class="cell ui-draggable ui-draggable-handle" id="v19" style="position: relative; left: 419px; top: -658px;">19</div>
+<div id="ketqua"></div>
+</body>
+</html>

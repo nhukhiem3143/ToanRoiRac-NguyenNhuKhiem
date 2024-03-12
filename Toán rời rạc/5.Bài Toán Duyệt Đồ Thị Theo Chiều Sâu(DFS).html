@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+    <h1>Thuật toán tìm kiếm DFS</h1>
+    <h2>Tên bài toán : Tìm đường đi có chi phí tối thiểu giữa hai đỉnh trong đồ thị sử dụng thuật toán DFS (Depth-First Search)</h2>
+   <p>Phân tích bài toán : 
+    1-Khởi tạo: Tạo một ngăn xếp (Stack) để lưu trữ các đỉnh cần xét. Mỗi đỉnh được biểu diễn bằng một đối tượng chứa thông tin về đỉnh đó, đường đi từ đỉnh bắt đầu đến đỉnh hiện tại và chi phí của đường đi đó. Bạn cũng khởi tạo một mảng visited để theo dõi các đỉnh đã được xét và một đối tượng minCost để lưu trữ đường đi có chi phí tối thiểu từ đỉnh bắt đầu đến đỉnh kết thúc.
+    2-Duyệt đồ thị: Bạn duyệt đồ thị bằng cách lấy ra các đỉnh từ ngăn xếp cho đến khi ngăn xếp trống. Đối với mỗi đỉnh, bạn kiểm tra xem nếu đỉnh đó là đỉnh kết thúc và chi phí của đường đi từ đỉnh bắt đầu đến đỉnh hiện tại nhỏ hơn chi phí tối thiểu hiện tại thì cập nhật chi phí tối thiểu và đường đi tương ứng. Sau đó, bạn thêm tất cả các đỉnh kề với đỉnh hiện tại vào ngăn xếp nếu chúng chưa được xét.
+    3-Kết quả: Sau khi duyệt hết đồ thị, đường đi có chi phí tối thiểu từ đỉnh bắt đầu đến đỉnh kết thúc sẽ được lưu trong minCost.path và chi phí tương ứng sẽ được lưu trong minCost.min</p>
+   <script>
+        class Stack {
+            constructor() {
+                this.items = [];
+            }
+
+            push(element) {
+                this.items.push(element);
+            }
+
+            pop() {
+                if (this.isEmpty()) return null;
+                return this.items.pop();
+            }
+
+            isEmpty() {
+                return this.items.length === 0;
+            }
+        }
+
+        function dfsMinCostPath(graph, start, end, costs) {
+            let stack = new Stack();
+            let visited = new Array(graph.length).fill(false);
+            let minCost = { min: Infinity, path: [] };
+
+            stack.push({ vertex: start, path: [], cost: 0 });
+
+            while (!stack.isEmpty()) {
+                let { vertex, path, cost } = stack.pop();
+
+                visited[vertex] = true;
+                path.push(vertex);
+
+                if (vertex === end && cost < minCost.min) {
+                    minCost.min = cost;
+                    minCost.path = [...path];
+                }
+
+                for (let neighbor = graph.length - 1; neighbor >= 0; neighbor--) {
+                    if (graph[vertex][neighbor] === 1 && !visited[neighbor]) {
+                        stack.push({ vertex: neighbor, path: [...path], cost: cost + costs[vertex][neighbor] });
+                    }
+                }
+            } //end while
+
+            return minCost;
+        }
+
+        // Sử dụng đồ thị và ma trận chi phí để kiểm tra
+        let graph = [
+            [0, 1, 1, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0]
+        ];
+
+        let costs = [
+            [0, 3, 11, Infinity],
+            [Infinity, 0, 7, Infinity],
+            [Infinity, Infinity, 0, 2],
+            [Infinity, Infinity, Infinity, 0]
+        ];
+
+        let startVertex = 0;
+        let endVertex = 3;
+
+        function showResult() {
+            let minCost = dfsMinCostPath(graph, startVertex, endVertex, costs);
+            document.getElementById('result').innerHTML = "Đường đi với chi phí tối thiểu: " + minCost.path + ', chi phí = ' + minCost.min;
+        }
+    </script>
+</head>
+<body>
+    <button onclick="showResult()">Xem Kết Quả</button>
+    <div id="result"></div>
+</body>
+</html>

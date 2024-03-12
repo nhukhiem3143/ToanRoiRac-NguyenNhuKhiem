@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+</head>
+<body>
+    <h1>Đồ Thị: Tìm cây khung nhỏ nhất bằng thuật toán</h1>
+    <h2>Tên bài toán : Thuật toán Kruskal </h2>
+    <p>Phân tích bài toán : Bài toán cây khung nhỏ nhất là bài toán tìm một cây khung của đồ thị có trọng số sao cho tổng trọng số của tất cả các cạnh trong cây là nhỏ nhất. Thuật toán Kruskal giải quyết bài toán này bằng cách chọn lần lượt các cạnh có trọng số nhỏ nhất mà không tạo thành chu trình, cho đến khi có đủ n-1 cạnh (với n là số đỉnh của đồ thị).</p>
+    <button onclick="showKruskalResult()">Xem Kết Quả</button>
+    <div id="kruskalResult"></div> <!-- Thêm phần tử để hiển thị kết quả -->
+   
+    <script>
+        function Kruskal(graph) {
+            let edges = [], result = [], parent = [], rank = [];
+
+            for (let i = 0; i < graph.length; i++) {
+                parent[i] = i;
+                rank[i] = 0;
+            }
+
+            for (let i = 0; i < graph.length; i++) {
+                for (let j = 0; j < graph[i].length; j++) {
+                    if (i !== j && graph[i][j] !== 0) {
+                        edges.push([graph[i][j], i, j]);
+                    }
+                }
+            }
+
+            edges.sort((a, b) => a[0] - b[0]);
+
+            function find(i) {
+                while (i !== parent[i]) i = parent[i];
+                return i;
+            }
+
+            function union(i, j) {
+                let a = find(i);
+                let b = find(j);
+                if (rank[a] > rank[b]) parent[b] = a;
+                else parent[a] = b;
+                if (rank[a] === rank[b]) rank[b]++;
+            }
+
+            edges.forEach(edge => {
+                let weight = edge[0], start = edge[1], end = edge[2];
+                if (find(start) !== find(end)) {
+                    result.push(edge);
+                    union(start, end);
+                }
+            });
+
+            return result;
+        }
+
+        let graph = [
+            [1, 2, 0, 6, 0],
+            [2, 0, 3, 8, 5],
+            [0, 3, 0, 6, 7],
+            [6, 8, 0, 0, 9],
+            [9, 5, 7, 9, 0]
+        ];
+
+        function showKruskalResult() {
+            let result = Kruskal(graph);
+            document.getElementById('kruskalResult').innerHTML = 'Các cạnh của cây khung nhỏ nhất: ' + JSON.stringify(result);
+        }
+    </script>
+</body>
+</html>

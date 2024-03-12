@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+</head>
+<body>
+    <h1>Bài Toán Tối Ưu</h1>
+    <h2>Đề Bài: Có n đồ vật với trọng lượng là w₁, w₂, ..., wn. Cần tìm cách xếp các đồ vật 
+        này vào các cái thùng có cùng dung lượng là b sao cho số thùng cần sử dụng là nhỏ nhất có thể
+        được
+    </h2>
+    <h2>Tên bài toán: Bài toán đóng thùng (Bin Packing Problem)</h2>
+<p>Phân tích bài toán : Bài toán đóng thùng (Bin Packing Problem) là một bài toán tối ưu hóa tổ hợp nổi tiếng, nơi chúng ta cần tìm cách xếp các đồ vật với trọng lượng khác nhau vào các thùng có dung lượng giới hạn sao cho số lượng thùng cần sử dụng là ít nhất. Đây là một bài toán NP-Hard, nghĩa là không có thuật toán đa thức tối ưu cho nó.</p>
+    <button onclick="showBinPackingResult()">Xem Kết Quả</button>
+    <div id="binPackingResult"></div> <!-- Thêm phần tử để hiển thị kết quả -->
+   
+    <script>
+        // Hàm binPacking để xếp các đồ vật vào thùng
+        function binPacking(weights, capacity) {
+            let bins = [capacity]; // Khởi tạo mảng bins với thùng đầu tiên
+            for (let weight of weights) { // Duyệt qua mảng trọng lượng
+                let placed = false; // Biến kiểm tra xem đã xếp được đồ vật chưa
+                for (let i = 0; i < bins.length; i++) { // Duyệt qua các thùng
+                    if (bins[i] >= weight) { // Nếu thùng hiện tại đủ chứa đồ vật
+                        bins[i] -= weight; // Trừ đi trọng lượng của đồ vật
+                        placed = true; // Đánh dấu là đã xếp
+                        break; // Thoát vòng lặp
+                    }
+                }
+                if (!placed) { // Nếu chưa xếp được
+                    bins.push(capacity - weight); // Thêm thùng mới và xếp đồ vật vào
+                }
+            }
+            return bins.length; // Trả về số lượng thùng đã sử dụng
+        }
+
+        // Mảng trọng lượng của các đồ vật
+        let weights = [2, 3, 5, 4];
+        // Dung lượng tối đa của mỗi thùng
+        let capacity = 10;
+
+        // Hàm hiển thị kết quả
+        function showBinPackingResult() {
+            let result = binPacking(weights, capacity);
+            document.getElementById('binPackingResult').innerHTML = `Số lượng thùng tối thiểu cần sử dụng là: ${result}`;
+        }
+    </script>
+</body>
+</html>

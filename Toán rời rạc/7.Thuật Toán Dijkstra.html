@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Lớn - Nguyễn Như Khiêm</title>
+</head>
+<body>
+    <h1>Đồ thị: Tìm đường đi ngắn nhất từ 1 đỉnh đến tất cả các đỉnh còn lại </h1>
+    <h2>Tên bài toán : Bài toán tìm đường đi ngắn nhất từ một đỉnh đến tất cả các đỉnh còn lại và thuật toán được sử dụng để giải quyết bài toán này là Thuật toán Dijkstra.</h2>
+   <p>Phân tích bài toán : Bài toán đường đi ngắn nhất từ một đỉnh đến tất cả các đỉnh còn lại là bài toán tìm đường đi có tổng trọng số nhỏ nhất từ một đỉnh gốc đến tất cả các đỉnh khác trong đồ thị có trọng số. Thuật toán Dijkstra giải quyết bài toán này bằng cách duyệt từ đỉnh gốc, mỗi lần chọn một đỉnh chưa được duyệt có khoảng cách ngắn nhất từ đỉnh gốc, sau đó cập nhật khoảng cách cho tất cả các đỉnh kề với đỉnh vừa được chọn.</p>
+    <button onclick="showDijkstraResult()">Xem Kết Quả</button>
+    <div id="dijkstraResult"></div> <!-- Thêm phần tử để hiển thị kết quả -->
+   
+    <script>
+        function Dijkstra(graph, start) {
+            let n = graph.length;
+            let dist = Array(n).fill(Infinity);
+            let visited = Array(n).fill(false);
+            dist[start] = 0;
+
+            for (let i = 0; i < n - 1; i++) {
+                let min = Infinity, u;
+                for (let j = 0; j < n; j++) {
+                    if (!visited[j] && dist[j] < min) {
+                        min = dist[j];
+                        u = j;
+                    }
+                }
+
+                visited[u] = true;
+
+                for (let v = 0; v < n; v++) {
+                    if (!visited[v] && graph[u][v] && dist[u] + graph[u][v] < dist[v]) {
+                        dist[v] = dist[u] + graph[u][v];
+                    }
+                }
+            }
+
+            return dist;
+        }
+
+        let graph = [
+            [0, 2, 0, 6, 0],
+            [2, 0, 3, 8, 5],
+            [0, 3, 0, 0, 7],
+            [6, 8, 0, 0, 9],
+            [0, 5, 7, 9, 0]
+        ];
+
+        function showDijkstraResult() {
+            let start = 0; // Đỉnh bắt đầu
+            let result = Dijkstra(graph, start);
+            document.getElementById('dijkstraResult').innerHTML = 'Đường đi ngắn nhất từ đỉnh ' + start + ' đến tất cả các đỉnh còn lại: ' + result.join(', ');
+        }
+    </script>
+</body>
+</html>
